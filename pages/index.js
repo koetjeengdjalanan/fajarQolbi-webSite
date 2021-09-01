@@ -9,8 +9,11 @@ import ModulThree from "../components/ModulThree";
 import ModulFour from "../components/ModulFour";
 import ModulFive from "../components/ModulFive";
 import Footer from "../components/Footer";
+import { Card } from "react-bootstrap";
+import { Carousel } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 
-export default function Home() {
+export default function Home({ posts }) {
  return (
   <>
    <NavigationBarTop />
@@ -22,12 +25,53 @@ export default function Home() {
     </Head>
 
     <main className={styles.main}>
-     <h1 className={styles.title}>
-      Welcome to <a href="https://nextjs.org">Next.js!</a>
-     </h1>
-
-     <ModulOne />
+     {/* <ModulOne /> */}
+     <Carousel>
+      {posts &&
+       posts.map((post) => (
+        <Carousel.Item interval={5000} key={post.id}>
+         <img
+          className="carouselImg d-block h-30 w-100"
+          src={`http://172.105.120.235:1337${post.thumbnail.url}`}
+          alt={`http://172.105.120.235:1337${post.thumbnail.slug}`}
+         />
+         <Carousel.Caption>
+          <h2>{post.title}</h2>
+          {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
+         </Carousel.Caption>
+        </Carousel.Item>
+       ))}
+     </Carousel>
      <ModulTwo />
+     {/* <div
+      className="container"
+      style={{ marginTop: "10rem", marginBottom: "10rem" }}
+     >
+      <h1>Ragam Kegiatan</h1>
+      <br />
+      <div className="row">
+       {posts &&
+        posts.map((post) => (
+         <div className="col d-flex justify-content-center" key={post.id}>
+          <Card style={{ width: "18rem" }}>
+           <Card.Img
+            variant="top"
+            src={`http://172.105.120.235:1337${post.thumbnail.url}`}
+            className="cardImgModule2"
+           />
+           <Card.Body>
+            <Card.Title>{post.title}</Card.Title>
+            <Card.Text>{post.body.substring(0, 200)} ... </Card.Text>
+            <a href="#">Lihat Lebih Banyak ...</a>
+           </Card.Body>
+          </Card>
+         </div>
+        ))}
+      </div>
+      <div className="d-flex justify-content-center mt-5">
+       <a href="#">- Lihat Lebih Banyak -</a>
+      </div>
+     </div> */}
      <ModulThree />
      <ModulFour />
      <ModulFive />
@@ -39,4 +83,17 @@ export default function Home() {
    </div>
   </>
  );
+}
+
+export async function getStaticProps() {
+ // Get Post From Strapi
+ const res = await fetch(
+  "http://172.105.120.235:1337/blogs?_sort=created_at:DESC"
+ );
+ const posts = await res.json();
+ //  console.log(posts);
+
+ return {
+  props: { posts },
+ };
 }
