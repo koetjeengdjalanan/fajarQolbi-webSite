@@ -1,0 +1,50 @@
+html,
+body {
+ padding: 0;
+ margin: 0;
+ font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+  Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+ color: inherit;
+ text-decoration: none;
+}
+
+* {
+ box-sizing: border-box;
+}
+
+.carouselImg {
+ width: 100vw;
+ height: 75vh;
+ object-fit: cover;
+}
+
+.cardImgModule2 {
+ width: 250px;
+ height: 250px;
+ object-fit: cover;
+}
+
+.bgModuleThree {
+ background-color: #d7edd3;
+ background-image: repeating-linear-gradient(
+   45deg,
+   rgba(248, 248, 248, 0.25),
+   rgba(248, 248, 248, 0.25) 12.5px,
+   transparent 0px,
+   transparent 37.5px
+  ),
+  repeating-linear-gradient(
+   -45deg,
+   rgba(248, 248, 248, 0.25),
+   rgba(248, 248, 248, 0.25) 12.5px,
+   transparent 0px,
+   transparent 37.5px
+  );
+}
+
+#mapIcon {
+ color: white;
+}
