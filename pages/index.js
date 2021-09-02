@@ -1,22 +1,14 @@
-import Head from "next/head";
-import Image from "next/image";
-import styles from "../styles/Home.module.css";
-import Button from "react-bootstrap/Button";
-import NavigationBarTop from "../components/NavigationBarTop";
-import ModulOne from "../components/ModulOne";
-import ModulTwo from "../components/ModulTwo";
-import ModulThree from "../components/ModulThree";
-import ModulFour from "../components/ModulFour";
-import ModulFive from "../components/ModulFive";
-import Footer from "../components/Footer";
-import { Card } from "react-bootstrap";
-import { Carousel } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Head from "next/head";
+import { Card, Carousel } from "react-bootstrap";
+import ModulFive from "../components/ModulFive";
+import ModulFour from "../components/ModulFour";
+import ModulThree from "../components/ModulThree";
+import styles from "../styles/Home.module.css";
 
-export default function Home({ posts }) {
+export default function Home({ headLine, blogPost }) {
  return (
   <>
-   <NavigationBarTop />
    <div className={styles.container}>
     <Head>
      <title>Yayasan Fajar Qolbi</title>
@@ -25,61 +17,64 @@ export default function Home({ posts }) {
     </Head>
 
     <main className={styles.main}>
+     {/* <NavigationBarTop /> */}
      {/* <ModulOne /> */}
      <Carousel>
-      {posts &&
-       posts.map((post) => (
-        <Carousel.Item interval={5000} key={post.id}>
+      {headLine &&
+       headLine.map((head) => (
+        <Carousel.Item interval={5000} key={head.id}>
          <img
           className="carouselImg d-block h-30 w-100"
-          src={`http://172.105.120.235:1337${post.thumbnail.url}`}
-          alt={`http://172.105.120.235:1337${post.thumbnail.slug}`}
+          src={`http://172.105.120.235:1337${head.thumbnail.url}`}
+          alt={`http://172.105.120.235:1337${head.thumbnail.slug}`}
          />
-         <Carousel.Caption>
-          <h2>{post.title}</h2>
-          {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
-         </Carousel.Caption>
+         <a href={`/blogs/${head.slug}`}>
+          <Carousel.Caption>
+           <h2>{head.title}</h2>
+           {/* <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p> */}
+          </Carousel.Caption>
+         </a>
         </Carousel.Item>
        ))}
      </Carousel>
-     <ModulTwo />
-     {/* <div
+     {/* <ModulTwo /> */}
+     <div
       className="container"
       style={{ marginTop: "10rem", marginBottom: "10rem" }}
      >
       <h1>Ragam Kegiatan</h1>
       <br />
       <div className="row">
-       {posts &&
-        posts.map((post) => (
-         <div className="col d-flex justify-content-center" key={post.id}>
+       {blogPost &&
+        blogPost.map((blog) => (
+         <div className="col d-flex justify-content-center" key={blog.id}>
           <Card style={{ width: "18rem" }}>
            <Card.Img
             variant="top"
-            src={`http://172.105.120.235:1337${post.thumbnail.url}`}
+            src={`http://172.105.120.235:1337${blog.thumbnail.url}`}
             className="cardImgModule2"
            />
            <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.body.substring(0, 200)} ... </Card.Text>
-            <a href="#">Lihat Lebih Banyak ...</a>
+            <Card.Title>{blog.title}</Card.Title>
+            <Card.Text>{blog.body.substring(0, 200)} ... </Card.Text>
+            <a href={`/blogs/${blog.slug}`}>Lihat Lebih Banyak ...</a>
            </Card.Body>
           </Card>
          </div>
         ))}
       </div>
-      <div className="d-flex justify-content-center mt-5">
-       <a href="#">- Lihat Lebih Banyak -</a>
-      </div>
-     </div> */}
+      <a href="/blogs">
+       <div className="d-flex justify-content-center mt-5">
+        - Lihat Lebih Banyak -
+       </div>
+      </a>
+     </div>
      <ModulThree />
      <ModulFour />
      <ModulFive />
     </main>
 
-    <footer className={styles.footer}>
-     <Footer />
-    </footer>
+    <footer className={styles.footer}>{/* <Footer /> */}</footer>
    </div>
   </>
  );
@@ -87,13 +82,31 @@ export default function Home({ posts }) {
 
 export async function getStaticProps() {
  // Get Post From Strapi
- const res = await fetch(
-  "http://172.105.120.235:1337/blogs?_sort=created_at:DESC"
- );
- const posts = await res.json();
- //  console.log(posts);
+ const [headLineRes, blogPostRes] = await Promise.all([
+  fetch(
+   `http://172.105.120.235:1337/blogs?_where[categories.title]=HeadLine&_sort=created_at:DESC&_start=0&_limit=3`
+  ),
+  fetch(
+   `http://172.105.120.235:1337/blogs?_where[categories.title]=News&_sort=created_at:DESC&_start=0&_limit=4`
+  ),
+ ]);
 
- return {
-  props: { posts },
- };
+ const [headLine, blogPost] = await Promise.all([
+  headLineRes.json(),
+  blogPostRes.json(),
+ ]);
+
+ return { props: { headLine, blogPost } };
 }
+// export async function getStaticProps() {
+//  // Get Post From Strapi
+//  const res = await fetch(
+//   "http://172.105.120.235:1337/blogs?_sort=created_at:DESC"
+//  );
+//  const posts = await res.json();
+//  //  console.log(posts);
+
+//  return {
+//   props: { posts },
+//  };
+// }

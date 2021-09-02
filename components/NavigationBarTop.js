@@ -12,13 +12,13 @@ const NavigationBarTop = () => {
  return (
   <Navbar collapseOnSelect expand="lg" bg="light" fixed="top">
    <Container>
-    <Navbar.Brand href="#home">Yaysan Fajar Qolbi</Navbar.Brand>
+    <Navbar.Brand href="/">Yaysan Fajar Qolbi</Navbar.Brand>
     <Navbar.Toggle aria-controls="responsive-navbar-nav" />
     <Navbar.Collapse id="responsive-navbar-nav">
      <Nav className="me-auto"></Nav>
      <Nav>
-      <Nav.Link href="#features">Beranda</Nav.Link>
-      <Nav.Link href="#pricing">Kegiatan</Nav.Link>
+      <Nav.Link href="/">Beranda</Nav.Link>
+      <Nav.Link href="/blogs">Kegiatan</Nav.Link>
       <NavDropdown title="Program" id="collasible-nav-dropdown">
        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
