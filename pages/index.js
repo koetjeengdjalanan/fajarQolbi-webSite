@@ -112,7 +112,7 @@ export async function getStaticProps() {
     blogPostRes.json(),
   ]);
 
-  return { props: { headLine, blogPost } };
+  return { props: { headLine, blogPost }, unstable_revalidate: 600 };
 }
 // export async function getStaticProps() {
 //  // Get Post From Strapi

@@ -41,6 +41,7 @@ export async function getStaticProps({ params: { slug } }) {
     props: {
       posts: blogPost[0],
     },
+    unstable_revalidate: 600,
   };
 }
 
@@ -55,7 +56,7 @@ export async function getStaticPaths() {
     paths: post.map((posts) => ({
       params: { slug: String(posts.slug) },
     })),
-    fallback: false,
+    fallback: true,
   };
 }
 
