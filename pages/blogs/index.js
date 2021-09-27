@@ -30,8 +30,8 @@ export default function blogs({ posts }) {
                         <div className="col-md-3 col-sm-12 d-flex justify-content-center align-items-center">
                           <img
                             className="blogPostThumbNail"
-                            src={`https://fajarqolbi-proddatabase.herokuapp.com${post.thumbnail.url}`}
-                            alt={`https://fajarqolbi-proddatabase.herokuapp.com${post.thumbnail.slug}`}
+                            src={post.thumbnail.url}
+                            alt={post.thumbnail.url}
                           />
                         </div>
                         <div className="col-md-9 col-sm-12">
@@ -73,10 +73,10 @@ export async function getStaticProps() {
     "https://fajarqolbi-proddatabase.herokuapp.com/blogs?_sort=created_at:DESC"
   );
   const posts = await res.json();
-  //  console.log(posts);
+  // console.log(posts);
 
   return {
     props: { posts },
-    unstable_revalidate: 600,
+    revalidate: 600,
   };
 }

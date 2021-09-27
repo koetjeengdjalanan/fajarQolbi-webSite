@@ -6,26 +6,34 @@ import moment from "moment";
 const Post = ({ posts }) => {
   return (
     <>
-      <Head>{posts.title && <title>{posts.title}</title>}</Head>
+      <Head>
+        <title>{posts && posts.title}</title>
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0"
+        ></meta>
+      </Head>
       <div className="container" style={{ marginTop: "3.85rem" }}>
         <div className="row">
-          <h1>{posts.title}</h1>
+          <h1>{posts && posts.title}</h1>
         </div>
         <div className="row d-flex justify-content-end">
           <p style={{ textAlign: "right" }}>
-            {moment(posts.dateTime).format("dddd, Do MMMM YYYY, hh:mm:ss a")}
+            {moment(posts && posts.dateTime).format(
+              "dddd, Do MMMM YYYY, hh:mm:ss a"
+            )}
           </p>
         </div>
         <br />
         <div className="row d-flex justify-content-center">
           <img
             className="postThumbNail"
-            src={`https://fajarqolbi-proddatabase.herokuapp.com${posts.thumbnail.url}`}
-            alt={`https://fajarqolbi-proddatabase.herokuapp.com${posts.thumbnail.slug}`}
+            src={posts && posts.thumbnail.url}
+            alt={posts && posts.thumbnail.url}
           />
         </div>
         <br />
-        <ReactMarkdown>{posts.body}</ReactMarkdown>
+        <ReactMarkdown>{posts && posts.body}</ReactMarkdown>
       </div>
     </>
   );
@@ -41,7 +49,7 @@ export async function getStaticProps({ params: { slug } }) {
     props: {
       posts: blogPost[0],
     },
-    unstable_revalidate: 600,
+    revalidate: 600,
   };
 }
 

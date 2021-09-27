@@ -16,7 +16,7 @@ export default function ModulTwo({ news }) {
               <Card style={{ width: "18rem" }}>
                 <Card.Img
                   variant="top"
-                  src={`https://fajarqolbi-proddatabase.herokuapp.com${post.thumbnail.url}`}
+                  src={`post.thumbnail.url`}
                   className="cardImgModule2"
                 />
                 <Card.Body>
